@@ -1,0 +1,17 @@
+function [out] = containsBlue(image)
+%CONTAINSBLUE Summary of this function goes here
+%   Detailed explanation goes here
+    r = image(:,:,1);
+    g = image(:,:,2);
+    b = image(:,:,3);
+    ind = find(r<50 & g<50 & b>100);
+    %indg = find(g>);
+    %indb = find(b>);
+    if(ind~=0)
+       out = 1; 
+    else
+        out = 0;
+    end
+
+end
+
