@@ -1,0 +1,11 @@
+function [new image] = moveUp(fondo, char, y)
+%MOVEUP Summary of this function goes here
+%   Detailed explanation goes here
+    
+    x = x+100;
+    y = y+100
+    fondo((1:size(char,1))+100, (1:size(char,2))+100, :) = char;
+
+
+end
+

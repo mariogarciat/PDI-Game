@@ -22,7 +22,7 @@ end
 %--------------------------------------------------------------------------
 
 sectores=[0,0,0,0,0]; % Vector de apoyo para las franjas grises del entorno gráfico
-fondo = imread('imagennn.jpg'); % Se carga la imagen del juego
+fondo = imread('fondo.jpg'); % Se carga la imagen del juego
 fondo = rgb2gray(fondo); % Pasamos la imagen a escala de grises
 limSuperior=21; % Límite superior de la imágen de fondo en pixeles
 limInferior=31; % Límite inferior de la imágen de fondo en pixeles
