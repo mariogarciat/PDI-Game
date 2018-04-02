@@ -1,5 +1,14 @@
 clear all, close all, clc
 cam = videoinput('winvideo');
+
+
+
+% % % cam2 = imaq.VideoDevice('winvideo', 1);
+% % % vidInfo = imaqhwinfo(cam2);
+% % % hVideoIn = vision.VideoPlayer('Name', 'Final Video', ...
+%                                 'Position', [60+vidInfo.MaxWidth 100 vidInfo.MaxWidth+20 vidInfo.MaxHeight+30]);
+
+
 triggerconfig(cam,'manual');
 set(cam,'TimerPeriod',0.3);
 [howl, howlColorMap, howlAlpha] = imread('assets/down right/1.png');
@@ -17,13 +26,14 @@ enemyImshow = imshow(enemy); hold off
 
 set(f1,'Units', 'normalized','Outerposition', [0, 0, 0.5, 1]);
 set(howlImshow, 'AlphaData', howlAlpha);
-%figure(2); imshow(up1); set(gcf, 'Units', 'normalized', 'Outerposition',
+%figure(2); imshow(up1); 
+%set(gcf, 'Units', 'normalized', 'Outerposition',
 %[0.5, 0, 0.5, 1]);   cámara
 set(enemyImshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
 
 
-
-
+% % % videoPlayer = vision.VideoPlayer;
+% % % videoFReader = vision.VideoFileReader('fundido.avi');
 
 % colshift = 50;
 % rowshift = 30;
@@ -37,23 +47,18 @@ set(enemyImshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YDa
 % fondo(indhowl) = howl(indhowl);
 %imshow(fondo);
 scene = fondo2;
-% for i=1:10
-% %     colshift = colshift + 100;
-% %     rowshift = rowshift + 100;
-% %     fondo = fondo2;
-% %     fondo((1:size(howl,1))+rowshift, (1:size(howl,2))+colshift, :) = howl;
-% %     
-%     scene = moveDown(scene,howl,rowshift);
-%     imshow(scene);
-%     disp(i)
-% end
     
-
 start(cam);
 shot = getsnapshot(cam);
-f2 = figure(2); 
-set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
-imshow(shot); 
+
+% % % step(cam);
+% % % shot = step(cam2);
+
+
+% f2 = figure(2); 
+% imshow(shot);
+% set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
+ 
      
 masc1 = shot*0;
 masc2 = shot*0;
@@ -78,7 +83,8 @@ aux4 = masc4;
 
 fondo = imresize(fondo, [fil,col]);
 
-for i=1:100
+for i=1:1000
+% % %      snap = step(cam);
      snap = peekdata(cam, 1);
      snap = flip(snap,2);
      
@@ -86,59 +92,53 @@ for i=1:100
      aux2(ind2) = snap(ind2);
      aux3(ind3) = snap(ind3);
      aux4(ind4) = snap(ind4);
-     %imshow(aux);
      blue1 = containsBlue(aux1);
      blue2 = containsBlue(aux2);
      blue3 = containsBlue(aux3);
      blue4 = containsBlue(aux4);
+     ifcollision = collision(howlImshow, enemyImshow); 
      
-     if(blue1 == 1)
-         howlImshow = moveCharacter(howlImshow, 1);
-         disp('arriba');
+     if(ifcollision == 1)
+             disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+             break;
+     else
+         if(blue1 == 1)
+            howlImshow = moveCharacter(howlImshow, 1, enemyImshow);
+            disp('arriba');
+         end
+         if(blue2 == 1)
+             howlImshow = moveCharacter(howlImshow, 2, enemyImshow);
+             disp('derecha');
+         end     
+         if(blue3 == 1)
+             howlImshow = moveCharacter(howlImshow, 3, enemyImshow);
+             disp('abajo');
+         end
+         if(blue4 == 1)
+             howlImshow = moveCharacter(howlImshow, 4, enemyImshow);
+             disp('izquierda');
+         end     
+         pause(0.01);
      end
-     if(blue2 == 1)
-         howlImshow = moveCharacter(howlImshow, 2);
-         disp('derecha');
-     end     
-     if(blue3 == 1)
-         howlImshow = moveCharacter(howlImshow, 3);
-         disp('abajo');
-     end
-     if(blue4 == 1)
-         howlImshow = moveCharacter(howlImshow, 4);
-         disp('izquierda');
-     end     
-     pause(0.01);
      
      
      snap(ind) = fondo(ind);
-%      imshow(snap);impixelinfo
-%      set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
+     
+     
+% % %      vidIn = step(cam);
+     
+% % %      f2 = figure(2); step(hVideoIn,shot2);
+% % %      set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
+%      preview(cam);impixelinfo
 %      imshow(snap); 
 
 %      
      
          
      
-     %disp(blue1);
-     %subplot 121; imshow(snap); subplot 122; imshow(fondo); impixelinfo;
 end
-%imshow(scene);
 stop(cam);
-% bluesnap = snap(:,:,3);
-% redsnap = snap(:,:,1);
-% greensnap = snap(:,:,2);
-% figure(3);imshow([redsnap;greensnap;bluesnap]); impixelinfo;
-
-% 
-% while 1
-%     imageData = peekdata(cam, 1);
-%     imshow(imageData);
-% end
 
 
 
 
-
-
-%figure(3);imshow(csnap);
