@@ -12,48 +12,46 @@ fondo2 = fondo;
 [enemy, enemyColorMap, enemyAlpha] = imread('assets/enemy/1.png');
 [enemy3, enemy3CM, enemy3Alpha] = imread('assets/enemy/3.png');
 [target, targetColorMap, targetAlpha] = imread('assets/more/1.png');
+[enemyCast1, enemyCast1CM, enemyCast1Alpha] = imread('assets/enemy/cast1.png');
+[enemyCast2, enemyCast2CM, enemyCast2Alpha] = imread('assets/enemy/cast2.png');
+[enemyCast3, enemyCast3CM, enemyCast3Alpha] = imread('assets/enemy/cast3.png');
+[enemyCast4, enemyCast4CM, enemyCast4Alpha] = imread('assets/enemy/cast4.png');
 
 
-global filfondo colfondo;
+
+
+global bulletsImshow16 enemyCastImshow enemyIdleImshow filenemy colenemy filfondo colfondo;
 [filfondo colfondo capfondo] = size(fondo);
 [filhowl colhowl caphowl] = size(howl);
 [filenemy colenemy capenemy] = size(enemy);
 
 f1 = figure(1); imshow(fondo, 'Border','tight'); impixelinfo; hold on
 howlImshow = imshow(howl); 
-enemy1Imshow = imshow(enemy);
-enemy3Imshow = imshow(enemy3);
-targetImshow = imshow(taget);
+targetImshow = imshow(target);
+enemyIdleImshow{1} = imshow(enemy);
+enemyIdleImshow{2} = imshow(enemy3);
+set(enemyIdleImshow{1}, 'AlphaData', enemyAlpha);
+set(enemyIdleImshow{2}, 'AlphaData', enemy3Alpha);
 
+enemyCastImshow{1} = imshow(enemyCast1);
+enemyCastImshow{2} = imshow(enemyCast2);
+enemyCastImshow{3} = imshow(enemyCast3);
+enemyCastImshow{4} = imshow(enemyCast4);
 
-bulletsImshow16 = loadBullets();
+bulletsImshow16 = loadBullets('assets/enemy/bullets/bullet0', 3,16); 
 
 hold off
 
+enemyEspecial = 0;
+positionsBullets = 0;
+
 set(f1,'Units', 'normalized','MenuBar', 'none', 'Outerposition', [0, 0, 0.5, 1], 'color', 'black');
 set(howlImshow, 'AlphaData', howlAlpha);
-set(enemy1Imshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
-set(enemy3Imshow, 'AlphaData', enemy3Alpha, 'XData', 1000, 'YData', 1000);
 set(targetImshow, 'AlphaData', enemy3Alpha, 'XData', 1000, 'YData', 1000);
-
-initialPositions = [
-        1 0;
-        0.9272 0.3746;
-        0.7071 0.7071;
-        0.3907 0.9205;
-        0 1;
-        -0.3907 0.9205;
-        -0.7071 0.7071;
-        -0.9272 0.3746;
-        -1 0;
-        -0.9272 -0.3746;
-        -0.7071 -0.7071;
-        -0.3907 -0.9205;
-        0 -1;
-        0.3907 -0.9205;
-        0.7071 -0.7071;
-        0.9272 -0.3746
-    ];
+set(enemyCastImshow{1},'AlphaData', enemyCast1Alpha, 'XData', [1000], 'YData', [1000]);
+set(enemyCastImshow{2},'AlphaData', enemyCast2Alpha, 'XData', [1000], 'YData', [1000]);
+set(enemyCastImshow{3},'AlphaData', enemyCast3Alpha, 'XData', [1000], 'YData', [1000]);
+set(enemyCastImshow{4},'AlphaData', enemyCast4Alpha, 'XData', [1000], 'YData', [1000]);
 
 step(cam);
 shot = step(cam);
@@ -84,7 +82,8 @@ for i=1:1000
      snap = step(cam);
      snap = flip(snap,2);
      snap = uint8(snap*255);
-     
+
+     positionsBullets = attack1(i, enemyEspecial, positionsBullets);
      aux1(ind1) = snap(ind1);
      aux2(ind2) = snap(ind2);
      aux3(ind3) = snap(ind3);
@@ -93,64 +92,31 @@ for i=1:1000
      blue2 = containsBlue(aux2);
      blue3 = containsBlue(aux3);
      blue4 = containsBlue(aux4);
-     ifcollision = collision(howlImshow, enemy1Imshow); 
+     ifcollision = collision(howlImshow, enemyIdleImshow{1}); 
      
      if(ifcollision == 1)
              disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
              break;
      else
          if(blue1 == 1)
-            howlImshow = moveCharacter(howlImshow, 1, enemy1Imshow);
+            howlImshow = moveCharacter(howlImshow, 1);
             disp('arriba');
          end
          if(blue2 == 1)
-             howlImshow = moveCharacter(howlImshow, 2, enemy1Imshow);
+             howlImshow = moveCharacter(howlImshow, 2);
              disp('derecha');
          end     
          if(blue3 == 1)
-             howlImshow = moveCharacter(howlImshow, 3, enemy1Imshow);
+             howlImshow = moveCharacter(howlImshow, 3);
              disp('abajo');
          end
          if(blue4 == 1)
-             howlImshow = moveCharacter(howlImshow, 4, enemy1Imshow);
+             howlImshow = moveCharacter(howlImshow, 4);
              disp('izquierda');
          end     
          pause(0.01);
      end
-    modulo = mod(i,3);
-
-    if(modulo == 0)
-        set(enemy3Imshow, 'XData', [1000], 'YData', [1000]);
-        
-        set(enemy1Imshow, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
-    elseif(modulo == 3)
-        set(enemy1Imshow, 'XData', [1000], 'YData', [1000]);
-        
-        set(enemy3Imshow, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
-    end
     
-    if(i>30)
-        if(x == 0)
-            [bulletsImshow16, positionsBullets] = initializateBulletsPosition(bulletsImshow16, initialPositions, colfondo/2, filfondo/2);
-            x = 1;
-        end
-        for j=1:16
-            moduloAux = modulo;
-
-            bulletsImshow = bulletsImshow16{1,j};
-            positionsBullets(j,1) = positionsBullets(j,1)+ initialPositions(j,1)*30;
-            positionsBullets(j,2) = positionsBullets(j,2)+ initialPositions(j,2)*30;
-            set(bulletsImshow{modulo+1}, 'XData', [positionsBullets(j,1)], 'YData', [positionsBullets(j,2)]);
-            if(modulo == 0)
-                moduloAux = 3;
-            end
-            set(bulletsImshow{moduloAux}, 'XData', [1000], 'YData', [1000]);
-        end
-    end
-    
-    if(mod(i,30)== 0)
-        x= 0;
-    end
      snap(ind) = fondo(ind);
      
      step(hVideoIn,snap);

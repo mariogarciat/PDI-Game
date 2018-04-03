@@ -50,8 +50,8 @@ hold off
 
 enemyEspecial = 0;
 
-positionsBullets = 0;
-
+positionsBullets;
+i
 
 
 set(f1,'Units', 'normalized','MenuBar', 'none', 'Outerposition', [0, 0, 0.5, 1], 'color', 'black');

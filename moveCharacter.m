@@ -1,16 +1,10 @@
-function [pjHandle] = moveCharacter(pjHandle, direction, enemyhandle)
+function [pjHandle] = moveCharacter(pjHandle, direction)
 %MOVEUP Summary of this function goes here
 %   Detailed explanation goes here
     
     global filfondo colfondo;
     y = get(pjHandle, 'YData');
     x = get(pjHandle, 'XData');
-    
-    yene = get(enemyhandle, 'YData');
-    xene = get(enemyhandle, 'XData');
-    
-    disp([x(1) xene]);
-    disp([y(1) yene]);
 
     if(direction == 1)
         if(y(1)-30>0)
