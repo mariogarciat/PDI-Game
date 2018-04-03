@@ -1,20 +1,16 @@
 clear all, close all, clc
-cam = videoinput('winvideo');
 
+cam = imaq.VideoDevice('winvideo', 1);
+vidInfo = imaqhwinfo(cam);
+hVideoIn = vision.VideoPlayer('Name', 'Final Video', ...
+                                'Position', [640 1 vidInfo.MaxWidth+20 vidInfo.MaxHeight+30]);
 
-
-% % % cam2 = imaq.VideoDevice('winvideo', 1);
-% % % vidInfo = imaqhwinfo(cam2);
-% % % hVideoIn = vision.VideoPlayer('Name', 'Final Video', ...
-%                                 'Position', [60+vidInfo.MaxWidth 100 vidInfo.MaxWidth+20 vidInfo.MaxHeight+30]);
-
-
-triggerconfig(cam,'manual');
-set(cam,'TimerPeriod',0.3);
 [howl, howlColorMap, howlAlpha] = imread('assets/down right/1.png');
-fondo = imread('fondo.jpg'); 
+howl = imresize(howl, 0.5); howlAlpha = imresize(howlAlpha, 0.5);
+fondo = imread('assets/fondo2.png'); fondo = imresize(fondo, 1.5);
 fondo2 = fondo;
-[enemy, enemyColorMap, enemyAlpha] = imread('assets/death/1.png');
+[enemy, enemyColorMap, enemyAlpha] = imread('assets/enemy/1.png');
+
 
 [filfondo colfondo capfondo] = size(fondo);
 [filhowl colhowl caphowl] = size(howl);
@@ -26,39 +22,11 @@ enemyImshow = imshow(enemy); hold off
 
 set(f1,'Units', 'normalized','Outerposition', [0, 0, 0.5, 1]);
 set(howlImshow, 'AlphaData', howlAlpha);
-%figure(2); imshow(up1); 
-%set(gcf, 'Units', 'normalized', 'Outerposition',
-%[0.5, 0, 0.5, 1]);   cámara
 set(enemyImshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
 
 
-% % % videoPlayer = vision.VideoPlayer;
-% % % videoFReader = vision.VideoFileReader('fundido.avi');
-
-% colshift = 50;
-% rowshift = 30;
-% fondo((1:size(howl,1))+rowshift, (1:size(howl,2))+colshift, :) = howl;
-% fondo((1:size(enemy,1))+(filfondo/2-filenemy/2), (1:size(enemy,2))+(colfondo/2-colenemy/2), :) = enemy;
-% fondo2((1:size(enemy,1))+(filfondo/2-filenemy/2), (1:size(enemy,2))+(colfondo/2-colenemy/2), :) = enemy;
-
-
-
-% indhowl = size(howl);
-% fondo(indhowl) = howl(indhowl);
-%imshow(fondo);
-scene = fondo2;
-    
-start(cam);
-shot = getsnapshot(cam);
-
-% % % step(cam);
-% % % shot = step(cam2);
-
-
-% f2 = figure(2); 
-% imshow(shot);
-% set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
- 
+step(cam);
+shot = step(cam);
      
 masc1 = shot*0;
 masc2 = shot*0;
@@ -82,11 +50,10 @@ aux3 = masc3;
 aux4 = masc4;
 
 fondo = imresize(fondo, [fil,col]);
-
 for i=1:1000
-% % %      snap = step(cam);
-     snap = peekdata(cam, 1);
+     snap = step(cam);
      snap = flip(snap,2);
+     snap = uint8(snap*255);
      
      aux1(ind1) = snap(ind1);
      aux2(ind2) = snap(ind2);
@@ -120,24 +87,15 @@ for i=1:1000
          end     
          pause(0.01);
      end
-     
-     
+    
      snap(ind) = fondo(ind);
      
-     
-% % %      vidIn = step(cam);
-     
-% % %      f2 = figure(2); step(hVideoIn,shot2);
-% % %      set(f2, 'Units', 'normalized', 'Outerposition',[0.5, 0, 0.5, 1]); %  cámara
-%      preview(cam);impixelinfo
-%      imshow(snap); 
+     step(hVideoIn,snap);
 
-%      
-     
-         
-     
 end
-stop(cam);
+release(cam);
+
+
 
 
 

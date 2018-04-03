@@ -9,7 +9,7 @@ function [out] = containsBlue(image)
     %indb = find(b>);
     if(ind~=0)
        out = 1; 
-       disp(out);
+       
     else
         out = 0;
     end
