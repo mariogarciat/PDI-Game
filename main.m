@@ -11,16 +11,20 @@ fondo = imread('assets/fondo2.png'); fondo = imresize(fondo, 1.5);
 fondo2 = fondo;
 [enemy, enemyColorMap, enemyAlpha] = imread('assets/enemy/1.png');
 [enemy3, enemy3CM, enemy3Alpha] = imread('assets/enemy/3.png');
+[target, targetColorMap, targetAlpha] = imread('assets/more/1.png');
 
 
+global filfondo colfondo;
 [filfondo colfondo capfondo] = size(fondo);
 [filhowl colhowl caphowl] = size(howl);
 [filenemy colenemy capenemy] = size(enemy);
 
 f1 = figure(1); imshow(fondo, 'Border','tight'); impixelinfo; hold on
 howlImshow = imshow(howl); 
-enemyImshow = imshow(enemy);
+enemy1Imshow = imshow(enemy);
 enemy3Imshow = imshow(enemy3);
+targetImshow = imshow(taget);
+
 
 bulletsImshow16 = loadBullets();
 
@@ -28,9 +32,9 @@ hold off
 
 set(f1,'Units', 'normalized','MenuBar', 'none', 'Outerposition', [0, 0, 0.5, 1], 'color', 'black');
 set(howlImshow, 'AlphaData', howlAlpha);
-set(enemyImshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
-set(enemy3Imshow, 'AlphaData', enemy3Alpha);
-
+set(enemy1Imshow, 'AlphaData', enemyAlpha, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
+set(enemy3Imshow, 'AlphaData', enemy3Alpha, 'XData', 1000, 'YData', 1000);
+set(targetImshow, 'AlphaData', enemy3Alpha, 'XData', 1000, 'YData', 1000);
 
 initialPositions = [
         1 0;
@@ -89,31 +93,31 @@ for i=1:1000
      blue2 = containsBlue(aux2);
      blue3 = containsBlue(aux3);
      blue4 = containsBlue(aux4);
-     ifcollision = collision(howlImshow, enemyImshow); 
+     ifcollision = collision(howlImshow, enemy1Imshow); 
      
      if(ifcollision == 1)
              disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
              break;
      else
          if(blue1 == 1)
-            howlImshow = moveCharacter(howlImshow, 1, enemyImshow);
+            howlImshow = moveCharacter(howlImshow, 1, enemy1Imshow);
             disp('arriba');
          end
          if(blue2 == 1)
-             howlImshow = moveCharacter(howlImshow, 2, enemyImshow);
+             howlImshow = moveCharacter(howlImshow, 2, enemy1Imshow);
              disp('derecha');
          end     
          if(blue3 == 1)
-             howlImshow = moveCharacter(howlImshow, 3, enemyImshow);
+             howlImshow = moveCharacter(howlImshow, 3, enemy1Imshow);
              disp('abajo');
          end
          if(blue4 == 1)
-             howlImshow = moveCharacter(howlImshow, 4, enemyImshow);
+             howlImshow = moveCharacter(howlImshow, 4, enemy1Imshow);
              disp('izquierda');
          end     
          pause(0.01);
      end
-    modulo = mod(i,8);
+    modulo = mod(i,3);
 
     if(modulo == 0)
         set(enemy3Imshow, 'XData', [1000], 'YData', [1000]);
@@ -125,7 +129,7 @@ for i=1:1000
         set(enemy3Imshow, 'XData', [colfondo/2-colenemy/2], 'YData', [filfondo/2-filenemy/2]);
     end
     
-    if(i>50)
+    if(i>30)
         if(x == 0)
             [bulletsImshow16, positionsBullets] = initializateBulletsPosition(bulletsImshow16, initialPositions, colfondo/2, filfondo/2);
             x = 1;
@@ -134,17 +138,17 @@ for i=1:1000
             moduloAux = modulo;
 
             bulletsImshow = bulletsImshow16{1,j};
-            positionsBullets(j,1) = positionsBullets(j,1)+ initialPositions(j,1)*10;
-            positionsBullets(j,2) = positionsBullets(j,2)+ initialPositions(j,2)*10;
+            positionsBullets(j,1) = positionsBullets(j,1)+ initialPositions(j,1)*30;
+            positionsBullets(j,2) = positionsBullets(j,2)+ initialPositions(j,2)*30;
             set(bulletsImshow{modulo+1}, 'XData', [positionsBullets(j,1)], 'YData', [positionsBullets(j,2)]);
             if(modulo == 0)
-                moduloAux = 8;
+                moduloAux = 3;
             end
             set(bulletsImshow{moduloAux}, 'XData', [1000], 'YData', [1000]);
         end
     end
     
-    if(mod(i,50)== 0)
+    if(mod(i,30)== 0)
         x= 0;
     end
      snap(ind) = fondo(ind);
