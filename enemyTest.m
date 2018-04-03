@@ -10,7 +10,7 @@ fondo = imread('assets/fondo2.png');
 %Carga balas
 
 
-global bulletsImshow16 enemyCastImshow enemyIdleImshow filenemy colenemy filfondo colfondo;
+global bulletsImshow16 bulletsImshow5 enemyCastImshow enemyIdleImshow filenemy colenemy filfondo colfondo;
 
 [filfondo colfondo capfondo] = size(fondo);
 
@@ -45,12 +45,12 @@ set(enemyCastImshow{4},'AlphaData', enemyCast4Alpha, 'XData', [1000], 'YData', [
 
 bulletsImshow16 = loadBullets('assets/enemy/bullets/bullet0', 3,16); 
 
+bulletsImshow5 = loadBullets('assets/enemy/bullets/type4/', 3,5); 
+
 hold off
 
-
-enemyEspecial = 0;
-
 positionsBullets = 0;
+positionsSpecials = 0;
 
 
 
@@ -59,8 +59,7 @@ x = 0;
 
 
 for i= 0:400
-    positionsBullets = attack1(i, enemyEspecial, positionsBullets);
-    
+    [positionsBullets positionsSpecials] = attack1(i, positionsBullets, positionsSpecials);
     
     
     pause(0.08);
