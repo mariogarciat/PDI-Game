@@ -7,6 +7,7 @@ function [ newFondo ] = target(fondo, targetImshow)
     b = fondo(:,:,3);
     ind = find(r<20 & g<100 & b>20);
 
+    
     set(targetHandle, )
 
 end

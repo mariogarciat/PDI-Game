@@ -5,11 +5,9 @@ function [out] = containsBlue(image)
     g = image(:,:,2);
     b = image(:,:,3);
     ind = find(r<30 & g<30 & b>100);
-    %indg = find(g>);
-    %indb = find(b>);
+
     if(ind~=0)
        out = 1; 
-       disp(out);
     else
         out = 0;
     end
