@@ -92,9 +92,18 @@ for i=1:1000
      blue2 = containsBlue(aux2);
      blue3 = containsBlue(aux3);
      blue4 = containsBlue(aux4);
-     ifcollision = collision(howlImshow, enemyIdleImshow{1}); 
+     ifCollisionEnemy = collision(howlImshow, enemyIdleImshow{1}); 
      
-     if(ifcollision == 1)
+     for j=1:16
+         for k=1:3
+             ifColli
+         end
+     end
+     
+     ifCollisionBullet = collision()
+     
+     
+     if(ifCollisionEnemy == 1)
              disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
              break;
      else
@@ -107,11 +116,11 @@ for i=1:1000
              disp('derecha');
          end     
          if(blue3 == 1)
-             howlImshow = moveCharacter(howlImshow, 3, );
+             howlImshow = moveCharacter(howlImshow, 3);
              disp('abajo');
          end
          if(blue4 == 1)
-             howlImshow = moveCharacter(howlImshow, 4, enemy1Imshow);
+             howlImshow = moveCharacter(howlImshow, 4);
              disp('izquierda');
          end     
          pause(0.01);

@@ -92,11 +92,15 @@ for i=1:1000
      blue2 = containsBlue(aux2);
      blue3 = containsBlue(aux3);
      blue4 = containsBlue(aux4);
-     ifcollision = collision(howlImshow, enemyIdleImshow{1}); 
+%      ifCollisionEnemy = collision(howlImshow, enemyIdleImshow{1}); 
      
-     if(ifcollision == 1)
-             disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
-             break;
+     
+     ifCollisionBullet = collision(howlImshow, bulletsImshow16);
+
+     if(ifCollisionBullet == 1)
+        disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+        f = msgbox('Perdiste, perra!');
+     break;
      else
          if(blue1 == 1)
             howlImshow = moveCharacter(howlImshow, 1);
@@ -116,6 +120,29 @@ for i=1:1000
          end     
          pause(0.01);
      end
+             
+%      if(ifCollisionEnemy == 1)
+%              disp('has perdidoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+%              break;
+%      else
+%          if(blue1 == 1)
+%             howlImshow = moveCharacter(howlImshow, 1);
+%             disp('arriba');
+%          end
+%          if(blue2 == 1)
+%              howlImshow = moveCharacter(howlImshow, 2);
+%              disp('derecha');
+%          end     
+%          if(blue3 == 1)
+%              howlImshow = moveCharacter(howlImshow, 3);
+%              disp('abajo');
+%          end
+%          if(blue4 == 1)
+%              howlImshow = moveCharacter(howlImshow, 4);
+%              disp('izquierda');
+%          end     
+%          pause(0.01);
+%      end
     
      snap(ind) = fondo(ind);
      

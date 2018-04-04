@@ -1,4 +1,4 @@
-clear all, close all, clc
+    clear all, close all, clc
 fondo = imread('assets/fondo2.png');
 [enemy1, enemy1CM, enemy1Alpha] = imread('assets/enemy/1.png');
 [enemy3, enemy3CM, enemy3Alpha] = imread('assets/enemy/3.png');
@@ -50,12 +50,17 @@ set(pjImshow,'AlphaData', pjAlpha, 'XData', [100], 'YData', [300]);
 
 bulletsImshow16 = loadBullets('assets/enemy/bullets/bullet0', 3,16); 
 
+
+
+%%Agregar esta linea
 bulletsImshow5 = loadBullets('assets/enemy/bullets/type4/', 3,5); 
 
 hold off
 
 positionsBullets = 0;
-positionsSpecials = 0;
+
+
+%%Agregar esta linea
 position2Follow = [10000, 10000];
 
 
@@ -65,7 +70,10 @@ x = 0;
 
 
 for i= 0:400
-    [positionsBullets positionsSpecials] = attack1(i, positionsBullets, positionsSpecials, pjImshow);
+    
+    %%Reemplazar por esta linea en el main donde pjImshow es howlImshow
+    positionsBullets = attack1(i, positionsBullets, pjImshow);
+    
     
     pox= get(pjImshow, 'XData');
     pox = pox(1);

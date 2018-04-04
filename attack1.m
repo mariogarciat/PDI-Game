@@ -1,4 +1,4 @@
-function [positionsBullets positionsSpecials] = attack1(i, positionsBullets, positionsSpecials, pj)
+function [positionsBullets ] = attack1(i, positionsBullets, pj)
 %ATTACK1 Summary of this function goes here
 %   Detailed explanation goes here
 
