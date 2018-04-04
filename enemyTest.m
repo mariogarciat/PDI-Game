@@ -7,10 +7,12 @@ fondo = imread('assets/fondo2.png');
 [enemyCast3, enemyCast3CM, enemyCast3Alpha] = imread('assets/enemy/cast3.png');
 [enemyCast4, enemyCast4CM, enemyCast4Alpha] = imread('assets/enemy/cast4.png');
 
+[pj, pjCM, pjAlpha] = imread('assets/left/1.png');
+
 %Carga balas
 
 
-global bulletsImshow16 bulletsImshow5 enemyCastImshow enemyIdleImshow filenemy colenemy filfondo colfondo;
+global bulletsImshow16 bulletsImshow5 enemyCastImshow enemyIdleImshow filenemy colenemy filfondo colfondo position2Follow;
 
 [filfondo colfondo capfondo] = size(fondo);
 
@@ -35,6 +37,9 @@ set(enemyCastImshow{2},'AlphaData', enemyCast2Alpha, 'XData', [1000], 'YData', [
 set(enemyCastImshow{3},'AlphaData', enemyCast3Alpha, 'XData', [1000], 'YData', [1000]);
 set(enemyCastImshow{4},'AlphaData', enemyCast4Alpha, 'XData', [1000], 'YData', [1000]);
 
+pjImshow = imshow(pj);
+set(pjImshow,'AlphaData', pjAlpha, 'XData', [100], 'YData', [300]);
+
 %Crea imshows de las balas
 % for k=1:8
 %     bulletsImshow{k} =imshow(bullets{1,k}{1,1});
@@ -51,6 +56,7 @@ hold off
 
 positionsBullets = 0;
 positionsSpecials = 0;
+position2Follow = [10000, 10000];
 
 
 
@@ -59,8 +65,12 @@ x = 0;
 
 
 for i= 0:400
-    [positionsBullets positionsSpecials] = attack1(i, positionsBullets, positionsSpecials);
+    [positionsBullets positionsSpecials] = attack1(i, positionsBullets, positionsSpecials, pjImshow);
     
-    
+    pox= get(pjImshow, 'XData');
+    pox = pox(1);
+    poy = get(pjImshow, 'YData');
+    poy = poy(1);
+    set(pjImshow, 'YData', poy-2);
     pause(0.08);
 end
