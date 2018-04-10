@@ -1,5 +1,20 @@
-clear all, close all, clc               %Limpia las variables, la ventana de comandos y cierra las ventanas externas
+%--------------------------------------------------------------------------
+%------- Gungeon ----------------------------------------------
+%------- Coceptos básicos de PDI-------------------------------------------
+%------- Por: David Fernández    david.fernandez@udea.edu.co --------------
+%-------      Profesor Facultad de Ingenieria BLQ 21-409  -----------------
+%-------      CC 71629489, Tel 2198528,  Wpp 3007106588 -------------------
+%------- Curso Básico de Procesamiento de Imágenes y Visión Artificial-----
+%------- V2 Abril de 2015--------------------------------------------------
+%--------------------------------------------------------------------------
 
+%--------------------------------------------------------------------------
+%--1. Inicializo el sistema -----------------------------------------------
+%--------------------------------------------------------------------------
+
+clear all   % Inicializa todas las variables
+close all   % Cierra todas las ventanas, archivos y procesos abiertos
+clc         % Limpia la ventana de comandos
 cam = imaq.VideoDevice('winvideo', 1);      %Obtiene el controlador del dispositivo de video a usar
 vidInfo = imaqhwinfo(cam);                  %Se adquiere informaciï¿½n del video
 hVideoIn = vision.VideoPlayer('Name', 'Final Video', ...        %Retorna el video player para reproducir los frames en video
